@@ -30,13 +30,14 @@ jobs:
 
       - name: 📦 Build Docker image (latest + version)
         run: |
-          VERSION=$(node -p "require('./package.json').version.split('.')[0]") # major version only
+          VERSION=$(node -p "require('./package.json').version") # full version e.g. 1.0.3
           echo "Building version v$VERSION"
           docker build -t ${{ secrets.DOCKER_USERNAME }}/test-1:latest \
                        -t ${{ secrets.DOCKER_USERNAME }}/test-1:v$VERSION .
 
       - name: 🚚 Push Docker images
         run: |
-          VERSION=$(node -p "require('./package.json').version.split('.')[0]")
+          VERSION=$(node -p "require('./package.json').version")
           docker push ${{ secrets.DOCKER_USERNAME }}/test-1:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/test-1:v$VERSION
+
